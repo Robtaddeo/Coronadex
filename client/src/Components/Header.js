@@ -102,23 +102,22 @@ export const Header = () => {
         "value" : "DJIA",
     }
   ]
-  
-  const countries = [
-    {
-        "key" : "China",
-        "name" : "China",
-        "value" : "China",
+    const countries = [
+        {
+            "key" : "China",
+            "name" : "China",
+            "value" : "China",
+        },
+        {
+        "key" : "Italy",
+        "name" : "Italy",
+        "value" : "Italy",
     },
     {
-      "key" : "Italy",
-      "name" : "Italy",
-      "value" : "Italy",
-  },
-  {
-    "key" : "USA",
-    "name" : "USA",
-    "value" : "USA",
-}
+        "key" : "USA",
+        "name" : "USA",
+        "value" : "USA",
+    }
 ]
 
   const menuId = 'primary-search-account-menu';
