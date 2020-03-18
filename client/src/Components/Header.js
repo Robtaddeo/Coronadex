@@ -17,53 +17,48 @@ const useStyles = makeStyles(theme => ({
         marginBottom: "20px"
     },
     grow: {
-    flexGrow: 1,
+        flexGrow: 1,
     },
     formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-    color: 'white'
+        margin: theme.spacing(1),
+        minWidth: 120,
+        color: 'white'
     },
     selectEmpty: {
-    marginTop: theme.spacing(2),
+        marginTop: theme.spacing(2),
     },
     menuButton: {
-    marginRight: theme.spacing(2),
-    justifyContent: 'flex-end',
-    float: "right"
+        marginRight: theme.spacing(2),
+        justifyContent: 'flex-end',
+        float: "right"
     },
-    exchange: {
-    fontSize: '15px',
-    display: 'none',
-    [theme.breakpoints.up('sm')]: {
-        display: 'block',
+    label: {
+        fontSize: '15px',
+        display: 'none',
+        marginRight: '10px',
+        [theme.breakpoints.up('sm')]: {
+            display: 'block',
     },
     },
     inputRoot: {
-    color: 'inherit',
+        color: 'inherit',
     },
     inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-        width: '20ch',
+        padding: theme.spacing(1, 1, 1, 0),
+        // vertical padding + font size from searchIcon
+        paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+        transition: theme.transitions.create('width'),
+        width: '100%',
+        [theme.breakpoints.up('md')]: {
+            width: '20ch',
     },
     },
     sectionDesktop: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-        display: 'flex',
-    },
-    },
-    sectionMobile: {
-    display: 'flex',
-    [theme.breakpoints.up('md')]: {
         display: 'none',
-    },
-    },
+        [theme.breakpoints.up('md')]: {
+            display: 'flex',
+        },
+    }
 }));
   
 
@@ -108,6 +103,23 @@ export const Header = () => {
     }
   ]
   
+  const countries = [
+    {
+        "key" : "China",
+        "name" : "China",
+        "value" : "China",
+    },
+    {
+      "key" : "Italy",
+      "name" : "Italy",
+      "value" : "Italy",
+  },
+  {
+    "key" : "USA",
+    "name" : "USA",
+    "value" : "USA",
+}
+]
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -127,7 +139,7 @@ export const Header = () => {
     <div className={classes.grow}>
       <AppBar position="static" className={classes.navbar}>
         <Toolbar>
-          <Typography className={classes.exchange} variant="h6" noWrap>
+          <Typography className={classes.label} variant="h6" noWrap>
             Exchange
           </Typography>
           <FormControl className={classes.formControl}>
@@ -143,14 +155,19 @@ export const Header = () => {
             </Select>
             </FormControl>
             
-            
+            <Typography className={classes.label} variant="h6" noWrap>
+                Country
+            </Typography>
             <FormControl className={classes.formControl}>
             <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                // value={age}
+                value={"USA"}
                 onChange={handleChange}
                 >
+                {countries.map(country => {
+                    return(<MenuItem key={country.key} value={country.value}>{country.name}</MenuItem>)
+                })}
             </Select>
             </FormControl>
         </Toolbar>
