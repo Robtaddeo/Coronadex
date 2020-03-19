@@ -28,16 +28,19 @@ class Chart extends React.Component {
                     backgroundColor: 'transparent' 
                 },
                 title: {
-                text: this.props.title,
-                style: {
-                    color: 'white'
-                }
+                    text: this.props.title,
+                    style: {
+                        color: 'white'
+                    }
+                },
+                legend: {
+                    enabled: false
                 },
                 yAxis: {
                     enabled: true,
                     gridLineColor: '#2d3436',
                     title: {
-                        text: 'Rate',
+                        text: 'Price',
                         style: {
                             color: 'white'
                         }
@@ -58,17 +61,42 @@ class Chart extends React.Component {
                         }
                     },
                     title: {
-                        text: "Date",
                         style : {
                             color: 'white'
                         }
+                    }
+                },
+                plotOptions: {
+                    area: {
+                        fillColor: {
+                            linearGradient: {
+                                x1: 0,
+                                y1: 0,
+                                x2: 0,
+                                y2: 1
+                            },
+                            stops: [
+                                [0, Highcharts.getOptions().colors[0]],
+                                [1, Highcharts.color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                            ]
+                        },
+                        marker: {
+                            radius: 2
+                        },
+                        lineWidth: 1,
+                        states: {
+                            hover: {
+                                lineWidth: 1
+                            }
+                        },
+                        threshold: null
                     }
                 },
                 series: [
                     {
                         data: this.state.data,
                         color: '#e67e22',
-                    }
+                    },
                 ]
             };
 

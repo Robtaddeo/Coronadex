@@ -35,6 +35,7 @@ export const Dashboard = () =>  {
                             <Chart 
                                 title="USD to EUR Exchange Rate over Time"
                                 dataUrl="https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/usdeur.json"
+                                series=""
                             />
                         </Paper>
                     </Grid>
