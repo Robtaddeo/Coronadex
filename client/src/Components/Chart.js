@@ -8,11 +8,12 @@ class Chart extends React.Component {
       super();
       this.state = {
           data: []
-      }
+      };
     }
 
     componentDidMount() {
         let url = this.props.dataUrl;
+        console.log(url)
         fetch(url)
             .then(res => res.json())
             .then((out) => {
@@ -34,22 +35,43 @@ class Chart extends React.Component {
                     }
                 },
                 legend: {
-                    enabled: false
+                    enabled: true
                 },
-                yAxis: {
-                    enabled: true,
-                    gridLineColor: '#2d3436',
+                yAxis: [{ // Primary yAxis
+                    labels: {
+                        style: {
+                            color: "#ffa600"
+                        },
+                        formatter: function() {
+                            return Highcharts.numberFormat(this.value, 2);
+                        }
+                    },
                     title: {
                         text: 'Price',
                         style: {
-                            color: 'white'
+                            color: "#ffa600"
+                        }
+                    }
+                }, { // Secondary yAxis
+                    title: {
+                        text: 'Volume',
+                        style: {
+                            color: "#003f5c"
                         }
                     },
                     labels: {
-                        style : {
-                            color: 'white'
+                        format: '${value}',
+                        style: {
+                            color: "#003f5c"
+                        },
+                        formatter: function() {
+                            return Highcharts.numberFormat(this.value, 2);
                         }
-                    }
+                    },
+                    opposite: true
+                }],
+                tooltip: {
+                    shared: true
                 },
                 xAxis: {
                     type: 'datetime',
@@ -92,14 +114,10 @@ class Chart extends React.Component {
                         threshold: null
                     }
                 },
-                series: [
-                    {
-                        data: this.state.data,
-                        color: '#e67e22',
-                    },
-                ]
+                series: []
             };
 
+        options.series = this.state.data;
         return(
             <div>
                 <HighchartsReact highcharts={Highcharts} options={options} />
