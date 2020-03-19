@@ -38,6 +38,7 @@ class Chart extends React.Component {
                     enabled: true
                 },
                 yAxis: [{ // Primary yAxis
+                    gridLineColor: '#2f3542',
                     labels: {
                         style: {
                             color: "#ffa600"
