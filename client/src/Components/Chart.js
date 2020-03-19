@@ -8,11 +8,12 @@ class Chart extends React.Component {
       super();
       this.state = {
           data: []
-      }
+      };
     }
 
     componentDidMount() {
         let url = this.props.dataUrl;
+        console.log(url)
         fetch(url)
             .then(res => res.json())
             .then((out) => {
@@ -34,72 +35,70 @@ class Chart extends React.Component {
                     }
                 },
                 legend: {
-                    enabled: false
+                    enabled: true
                 },
-                yAxis: {
-                    enabled: true,
-                    gridLineColor: '#2d3436',
-                    title: {
-                        text: 'Price',
+                yAxis: [{ // Primary yAxis
+                    gridLineColor: '#2f3542',
+                    labels: {
                         style: {
-                            color: 'white'
-                        }
-                    },
-                    labels: {
-                        style : {
-                            color: 'white'
-                        }
-                    }
-                },
-                xAxis: {
-                    type: 'datetime',
-                    enabled: true,
-                    gridLineColor: '#2d3436',
-                    labels: {
-                        style : {
-                            color: 'white'
+                            color: "#ffa600"
+                        },
+                        formatter: function() {
+                            return Highcharts.numberFormat(this.value, 2);
                         }
                     },
                     title: {
-                        style : {
-                            color: 'white'
+                        text: 'Price (USD)',
+                        style: {
+                            color: "#ffa600"
                         }
                     }
+                }, { // Secondary yAxis
+                    gridLineColor: '#2f3542',
+                    title: {
+                        text: 'Volume (Millions)',
+                        style: {
+                            color: "#70a1ff"
+                        }
+                    },
+                    labels: {
+                        style: {
+                            color: "#70a1ff"
+                        },
+                        formatter: function() {
+                            return Highcharts.numberFormat(this.value, 2);
+                        }
+                    },
+                    opposite: true
+                }],
+                tooltip: {
+                    shared: true
                 },
                 plotOptions: {
-                    area: {
-                        fillColor: {
-                            linearGradient: {
-                                x1: 0,
-                                y1: 0,
-                                x2: 0,
-                                y2: 1
-                            },
-                            stops: [
-                                [0, Highcharts.getOptions().colors[0]],
-                                [1, Highcharts.color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-                            ]
-                        },
-                        marker: {
-                            radius: 2
-                        },
-                        lineWidth: 1,
-                        states: {
-                            hover: {
-                                lineWidth: 1
-                            }
-                        },
-                        threshold: null
+                    series: {
+                      stacking: 'normal',
+                      borderWidth: 0
+                    }
+                  },
+                xAxis: {
+                    type: 'datetime',
+                    ordinal: true,
+                    enabled: true,
+                    labels: {
+                        style : {
+                            color: 'white'
+                        }
+                    },
+                    title: {
+                        style : {
+                            color: 'white'
+                        }
                     }
                 },
-                series: [
-                    {
-                        data: this.state.data,
-                        color: '#e67e22',
-                    },
-                ]
+                series: this.state.data,
             };
 
+        // options.series = this.state.data;
         return(
             <div>
                 <HighchartsReact highcharts={Highcharts} options={options} />
