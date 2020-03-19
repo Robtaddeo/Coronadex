@@ -32,21 +32,20 @@ class Dashboard extends React.Component {
       }
 
     componentDidMount() {
-        let url = this.props.dataUrl;
-        console.log('/Data/stocks.json')
+        let url = '/Data/stocks.json';
         fetch(url)
             .then(res => res.json())
             .then((out) => {
+                // console.log(out);
                 this.setState({stocks: out});
-                console.log(this.state.stocks);
             })
             .catch(err => { throw err });
 
-        console.log(this.state);
     }
 
     render() {
-
+        console.log("yessir");
+        console.log(this.state);
         const { classes } = this.props;
         console.log(classes);
         return(
@@ -54,30 +53,17 @@ class Dashboard extends React.Component {
                 <Header />
                 <div className={classes.root}>
                     <Grid container spacing={2}>
-                        <Grid item xs={6}>
-                            <Paper className={classes.paper}>
-                            <Chart 
-                                    title="S&P 500"
-                                    dataUrl="/Data/SPY.json"
-                                    series=""
-                                />
-                            </Paper>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <Paper className={classes.paper}>
-                                <Chart 
-                                    title="GOOG"
-                                    dataUrl="/Data/GOOG.json"
-                                    series=""
-                                />
-                            </Paper>
-                        </Grid>
-                        <Grid item xs={6}>
-                            {/* <Paper className={classes.paper}><Chart title="Idk what this is"/></Paper> */}
-                        </Grid>
-                        <Grid item xs={6}>
-                            {/* <Paper className={classes.paper}><Chart /></Paper> */}
-                        </Grid>
+                        {this.state.stocks.map(stock => (
+                            <Grid item xs={6}>
+                                <Paper className={classes.paper}>
+                                    <Chart 
+                                        title={stock.name}
+                                        dataUrl={`/Data/${stock.ticker}.json`}
+                                        series=""
+                                    />
+                                </Paper>
+                            </Grid>
+                        ))}
                     </Grid>
                 </div>
             </div>
