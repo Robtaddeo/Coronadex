@@ -32,11 +32,11 @@ export const Dashboard = () =>  {
                 <Grid container spacing={2}>
                     <Grid item xs={6}>
                         <Paper className={classes.paper}>
-                            {/* <Chart 
-                                title="USD to EUR Exchange Rate over Time"
-                                dataUrl="https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/usdeur.json"
+                        <Chart 
+                                title="S&P 500"
+                                dataUrl="/Data/SPY.json"
                                 series=""
-                            /> */}
+                            />
                         </Paper>
                     </Grid>
                     <Grid item xs={6}>

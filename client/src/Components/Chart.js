@@ -47,22 +47,22 @@ class Chart extends React.Component {
                         }
                     },
                     title: {
-                        text: 'Price',
+                        text: 'Price (USD)',
                         style: {
                             color: "#ffa600"
                         }
                     }
                 }, { // Secondary yAxis
+                    gridLineColor: '#2f3542',
                     title: {
-                        text: 'Volume',
+                        text: 'Volume (Millions)',
                         style: {
-                            color: "#003f5c"
+                            color: "#70a1ff"
                         }
                     },
                     labels: {
-                        format: '${value}',
                         style: {
-                            color: "#003f5c"
+                            color: "#70a1ff"
                         },
                         formatter: function() {
                             return Highcharts.numberFormat(this.value, 2);
@@ -73,10 +73,16 @@ class Chart extends React.Component {
                 tooltip: {
                     shared: true
                 },
+                plotOptions: {
+                    series: {
+                      stacking: 'normal',
+                      borderWidth: 0
+                    }
+                  },
                 xAxis: {
                     type: 'datetime',
+                    ordinal: true,
                     enabled: true,
-                    gridLineColor: '#2d3436',
                     labels: {
                         style : {
                             color: 'white'
@@ -88,36 +94,10 @@ class Chart extends React.Component {
                         }
                     }
                 },
-                plotOptions: {
-                    area: {
-                        fillColor: {
-                            linearGradient: {
-                                x1: 0,
-                                y1: 0,
-                                x2: 0,
-                                y2: 1
-                            },
-                            stops: [
-                                [0, Highcharts.getOptions().colors[0]],
-                                [1, Highcharts.color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-                            ]
-                        },
-                        marker: {
-                            radius: 2
-                        },
-                        lineWidth: 1,
-                        states: {
-                            hover: {
-                                lineWidth: 1
-                            }
-                        },
-                        threshold: null
-                    }
-                },
-                series: []
+                series: this.state.data,
             };
 
-        options.series = this.state.data;
+        // options.series = this.state.data;
         return(
             <div>
                 <HighchartsReact highcharts={Highcharts} options={options} />
