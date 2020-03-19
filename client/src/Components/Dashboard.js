@@ -1,5 +1,4 @@
 import React from 'react';
-import { Header } from './Header';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -50,7 +49,6 @@ class Dashboard extends React.Component {
         console.log(classes);
         return(
             <div className={classes.dashboard}>
-                <Header />
                 <div className={classes.root}>
                     <Grid container spacing={2}>
                         {this.state.stocks.map(stock => (
