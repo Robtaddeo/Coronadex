@@ -1,8 +1,9 @@
 import React from 'react';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Chart from "./Chart";
+import Header from './Header';
 
 const styles = theme => ({
     dashboard: {
@@ -25,12 +26,15 @@ const styles = theme => ({
 class Dashboard extends React.Component {
     constructor() {
         super();
+        this.getData = this.getData.bind(this);
         this.state = {
-            stocks: []
+            stocks: [],
+            country: "USA",
+            index: "SPX"
         };
       }
 
-    componentDidMount() {
+    componentDidMount(){
         let url = '/Data/stocks.json';
         fetch(url)
             .then(res => res.json())
@@ -38,36 +42,49 @@ class Dashboard extends React.Component {
                 // console.log(out);
                 this.setState({stocks: out});
             })
-            .catch(err => { throw err });
-
+            .catch(err => { throw err; });
     }
 
-    render() {
-        console.log("yessir");
-        console.log(this.state);
+    getData(val){
+        console.log("val: " + val.index);
+        this.setState({
+            country: val.country,
+            index: val.index
+        });
+        console.log("index: " + this.state.index);
+        this.forceUpdate();
+    }
+    render(){
         const { classes } = this.props;
-        console.log(classes);
         return(
             <div className={classes.dashboard}>
+                <Header sendData={this.getData}/>
                 <div className={classes.root}>
                     <Grid container spacing={2}>
-                        {this.state.stocks.map(stock => (
-                            <Grid item xs={6}>
-                                <Paper className={classes.paper}>
-                                    <Chart 
-                                        title={stock.name}
-                                        dataUrl={`/Data/${stock.ticker}.json`}
-                                        series=""
-                                    />
-                                </Paper>
-                            </Grid>
-                        ))}
+                        {this.state.stocks.map(stock => {
+                            if(this.state.index === stock.index){
+                                return(                           
+                                    <Grid item key={stock.ticker} xs={6}>
+                                    <Paper key={stock.ticker} className={classes.paper}>
+                                        <Chart 
+                                            key={stock.ticker}
+                                            title={stock.name}
+                                            dataUrl={`/Data/${stock.ticker}.json`}
+                                            series=""
+                                        />
+                                    </Paper>
+                                </Grid>)
+                            }
+                            else return "";
+                        })}
                     </Grid>
                 </div>
             </div>
         )
 
     };
+
+
 
 }
 

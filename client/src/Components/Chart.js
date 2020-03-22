@@ -13,12 +13,10 @@ class Chart extends React.Component {
 
     componentDidMount() {
         let url = this.props.dataUrl;
-        console.log(url)
         fetch(url)
             .then(res => res.json())
             .then((out) => {
                 this.setState({data: out});
-                console.log(this.state.data);
             })
             .catch(err => { throw err });
     }

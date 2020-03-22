@@ -1,17 +1,14 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import MenuIcon from '@material-ui/icons/Menu';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-const useStyles = makeStyles(theme => ({
+
+
+const styles = theme => ({
     navbar: {
         backgroundColor: '#2c3e50',
         marginBottom: "20px"
@@ -59,38 +56,15 @@ const useStyles = makeStyles(theme => ({
             display: 'flex',
         },
     }
-}));
-  
+});
 
-export const Header = () => {
-  const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+class Header extends React.Component {
 
-  const handleChange = event => {
-    console.log(event.target.value);
-  };
-
-  const isMenuOpen = Boolean(anchorEl);
-
-  const handleProfileMenuOpen = event => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
-
-  const handleMobileMenuOpen = event => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
-
-  const indexes = [
+  constructor() {
+    super();
+    this.handleIndexChange = this.handleIndexChange.bind(this);
+    this.handleCountryChange = this.handleCountryChange.bind(this);
+    this.indexes = [
       {
           "key" : "SPX",
           "name" : "S&P 500",
@@ -100,9 +74,10 @@ export const Header = () => {
         "key" : "DJIA",
         "name" : "Dow Jones",
         "value" : "DJIA",
-    }
-  ]
-    const countries = [
+      }
+    ];
+    
+    this.countries = [
         {
             "key" : "China",
             "name" : "China",
@@ -112,66 +87,79 @@ export const Header = () => {
         "key" : "Italy",
         "name" : "Italy",
         "value" : "Italy",
-    },
-    {
-        "key" : "USA",
-        "name" : "USA",
-        "value" : "USA",
-    }
-]
+        },
+        {
+            "key" : "USA",
+            "name" : "USA",
+            "value" : "USA",
+        }
+      ];
 
-  const menuId = 'primary-search-account-menu';
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-    </Menu>
-  );
+      this.state = {
+        country: "USA",
+        index: "SPX"
+      };
+  }
 
-  return (
-    <div className={classes.grow}>
-      <AppBar position="static" className={classes.navbar}>
-        <Toolbar>
-          <Typography className={classes.label} variant="h6" noWrap>
-            Exchange
-          </Typography>
-          <FormControl className={classes.formControl}>
-            <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={"SPX"}
-                onChange={handleChange}
-                >
-                {indexes.map(index => {
-                    return(<MenuItem key={index.key} value={index.value}>{index.name}</MenuItem>)
-                })}
-            </Select>
-            </FormControl>
-            
+  handleIndexChange(event){
+    this.setState({
+      index: event.target.value
+    }, () => this.props.sendData(this.state));
+  }
+
+  handleCountryChange(event){
+    this.setState({
+      country: event.target.value
+    }, () => this.props.sendData(this.state));
+  }
+
+
+
+
+  render(){
+    let { classes } = this.props;
+
+    return (
+      <div className={classes.grow}>
+        <AppBar position="static" className={classes.navbar}>
+          <Toolbar>
             <Typography className={classes.label} variant="h6" noWrap>
-                Country
+              Exchange
             </Typography>
             <FormControl className={classes.formControl}>
-            <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={"USA"}
-                onChange={handleChange}
-                >
-                {countries.map(country => {
-                    return(<MenuItem key={country.key} value={country.value}>{country.name}</MenuItem>)
-                })}
-            </Select>
-            </FormControl>
-        </Toolbar>
-      </AppBar>
-      {renderMenu}
-    </div>
-  );
+              <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={this.state.index}
+                  onChange={this.handleIndexChange}
+                  >
+                  {this.indexes.map(index => {
+                      return(<MenuItem key={index.key} value={index.value}>{index.name}</MenuItem>)
+                  })}
+              </Select>
+              </FormControl>
+              
+              <Typography className={classes.label} variant="h6" noWrap>
+                  Country
+              </Typography>
+              <FormControl className={classes.formControl}>
+              <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={this.state.country}
+                  onChange={this.handleCountryChange}
+                  >
+                  {this.countries.map(country => {
+                      return(<MenuItem key={country.key} value={country.value}>{country.name}</MenuItem>)
+                  })}
+              </Select>
+              </FormControl>
+          </Toolbar>
+          </AppBar>
+      </div>
+    );
+  }
+
 }
+
+export default withStyles(styles, { withTheme: true })(Header);
